@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <div class="message-box" v-for="input in messages" :key="input"> 
-        <div> {{ input.sender }}</div>
-        <div>{{ input.message }} </div>
+  <div class="message-box">
+    <div v-for="input in messages" :key="input"> 
+        <div class="msg sender"> {{ input.sender }}</div>
+        <div class="msg">{{ input.message }} </div>
     </div>
   </div>
 </template>
@@ -18,11 +18,26 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .message-box {
-  position: relative;
-  display: contents;
-    height: 200px;
-    border:  1px solid teal;
+
+  position: absolute;
+  display: grid;
+  grid-template-rows: "a";
+  height: 200px;
+  width: 300px;
+  border:  1px solid teal;
+  overflow-y: scroll;
+
 }
+.msg {
+    padding: 5px 10px;
+    text-align: start;
+    font-size: 14px;
+}
+
+.msg.sender {
+    font-size: 10px;
+}
+
 </style>

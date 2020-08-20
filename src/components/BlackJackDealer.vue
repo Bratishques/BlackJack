@@ -1,8 +1,8 @@
 <template>
   <div class="Player">
-    <h3>{{playerCount}}</h3>
+    <h3>{{dealerCount}}</h3>
     <div id="playerDeck">
-      <div v-for="item of playerCards" :key="item">
+      <div v-for="item of dealerCards" :key="item">
         {{ item }}
       </div>
     </div>
@@ -13,7 +13,7 @@
 <script>
 
 export default {
-  name: 'BlackJackAi',
+  name: 'BlackJackDealer',
 
 
   computed: {

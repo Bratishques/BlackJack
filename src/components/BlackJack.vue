@@ -43,7 +43,11 @@ export default {
 </script>
 
 <style scoped>
+
+.hello {
+}
 .players {
+  margin-top: 20vh;
   display: grid;
   grid-template-columns: 1fr 1fr;
 }

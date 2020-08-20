@@ -75,6 +75,9 @@ export default new Vuex.Store({
         state.playerEnded = false
   
       },
+      sendMsg: (state,payload) => {
+        state.messages.push({sender: "System", message: payload.message})
+      },
       setWins: (state, payload) => {
         if (state.playerEnded) {
           let messages = []
@@ -117,14 +120,17 @@ export default new Vuex.Store({
       },
       pickTemplate ({commit, dispatch}, payload) {
         commit('pickCard', payload)
+        payload.message = `${payload.player} picked a card!`
+        commit('sendMsg', payload)
         dispatch('countAce', payload)
+        
+     
       },
       countAce ({commit, state, getters}, payload) {
         for (let card of state.players[payload.player].pickedCard) {
-          console.log(card)
-           console.log("got card")
+
             if (!/a[htcp]/ig.test(card)) {
-              console.log("not an ace")
+
               let value = blackJack([card])
               console.log(value)
               payload.value = value
@@ -134,6 +140,10 @@ export default new Vuex.Store({
               payload.dealerCount = getters.dealerCount
               commit('countOverdraft', payload)
               commit('playerEnded', payload)
+            }
+            else {
+              payload.message = `${payload.player} picked an Ace, choose it's worth!`
+              commit('sendMsg', payload)
             }
         }
       },
@@ -160,15 +170,20 @@ export default new Vuex.Store({
           payload.player = player
           dispatch('pickStart', payload)
         }
+        payload.message = "A game has started!"
+        commit('sendMsg', payload)
       },
       enoughAndCount ({ commit, getters, state, dispatch}, payload  ) {
         payload.dealerCount = getters.dealerCount
         payload.scores = getters.playerCount
         commit('enough', payload)
+        payload.message = `${payload.player} had enough!`
+        commit('sendMsg', payload)
         commit('playerEnded', payload)
         if (state.playerEnded) {
           dispatch('countWinners', payload)
         }
+
     },
       countWinners ({commit, getters}, payload) {
         
