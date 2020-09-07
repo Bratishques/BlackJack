@@ -3,7 +3,7 @@
     <router-link to="/"><h1>Logo</h1></router-link>
     <div class="routes">
     <router-link to="/blackjack">Blackjack</router-link>
-    
+    <router-link to="/multiplayer">Multiplayer</router-link>
     </div>
     
     <div>

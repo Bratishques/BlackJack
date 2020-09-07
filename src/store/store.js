@@ -9,7 +9,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+      multiDealerCards: [],
+      multiDealerScore: 0,
+      name: "",
+      room: false,
+      roomMessages: [],
+      setName: false,
+      stage: 0,
       messages: [],
+      multiPlayers: [],
       playerEnded: false,
       dealerCards: [],
       hasStarted: false,
@@ -22,6 +30,31 @@ export default new Vuex.Store({
 
   },
   mutations: {
+    setMultiDealer: (state, payload) => {
+      state.multiDealerCards = payload.cards
+      state.multiDealerScore = payload.score
+    },
+    setStage: (state, payload) => {
+      state.stage = payload.stage
+    },
+    setMultiplayers: (state, payload) => {
+      state.multiPlayers = payload.players
+    },
+    setNaming: (state) => {
+      state.setName = !state.setName
+    },
+    setName: (state, payload) => {
+      state.name = payload.name
+    },
+      setRoom: (state, payload) => {
+        state.room = payload.id
+      },
+      newMessage: (state, payload) => {
+        state.roomMessages = [...state.roomMessages, payload.msg]
+      },
+      setMessages: (state, payload) => {
+        state.roomMessages = [...payload.msgs]
+      },
       increaseCount: (state, payload) => {
         state.players[payload.player].cards.push(state.players[payload.player].pickedCard.pop())
         console.log(payload.value)
@@ -112,6 +145,34 @@ export default new Vuex.Store({
 
   },
   actions: {
+    SOCKET_changeDealer({commit}, data) {
+      commit('setMultiDealer', data)
+    },
+    SOCKET_changePlayers({commit}, data) {
+      console.log("Changed the players array")
+      commit("setMultiplayers", data)
+    },
+    SOCKET_changeStage({commit}, data) {
+      commit("setStage", data)
+    },
+
+    chooseName({commit}) {
+      console.log("Request for name received")
+      commit("setNaming")
+    },
+    SOCKET_newMessage( {commit}, data) {
+      console.log('Message received' + data.text)
+      commit('setRoom', data)
+    },
+    receiveMessages({commit}, data) {
+      console.log(data)
+      commit("setMessages", data)
+    },
+    SOCKET_receiveMessage({commit}, data) {
+      console.log(data)
+      commit("newMessage", data)
+
+    },
       pickStart ({commit,dispatch}, payload) {
         commit('pickCard', payload)
         dispatch('countAce', payload)
@@ -238,9 +299,10 @@ export default new Vuex.Store({
      }
      else {
        if (state.dealerCards[1]) {
-       return ("x" + ` ${blackJack(state.dealerCards[1])}`)
+         console.log(blackJack(state.dealerCards[1]))
+       return ("x" + ` ${blackJack([state.dealerCards[1]])}`)
        }
-       return "null"
+       return "No cards"
      }
    }
     

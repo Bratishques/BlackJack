@@ -6,7 +6,6 @@
         {{ item }}
       </div>
     </div>
-    <button @click="pickAndCount" v-bind:value="player()">Pick Card</button>
   </div>
 </template>
 

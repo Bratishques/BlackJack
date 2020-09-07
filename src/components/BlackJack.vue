@@ -4,6 +4,7 @@
   <div class="hello">
     <Messages></Messages>
     <h1>This is BlackJack</h1>
+    <BlackJackDealer></BlackJackDealer>
     <h2>{{msg}}</h2>
     <div class = "players">
     <BlackJackPlayer player = "human1"></BlackJackPlayer>
@@ -17,13 +18,15 @@
 <script>
 import BlackJackPlayer from "./BlackJackPlayer"
 import Messages from "./Messages"
+import BlackJackDealer from "./BlackJackDealer"
 
 export default {
   name: 'BlackJack',
 
   components: {
       BlackJackPlayer,
-      Messages
+      Messages,
+      BlackJackDealer
   },
   props: {
     msg: String,
