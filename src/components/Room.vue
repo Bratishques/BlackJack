@@ -1,5 +1,6 @@
 <template>
   <div>
+      <RoomMessages/>
       <div class="modal"  v-show="setName">
           <div class="modal-wrapper">
               <div class="modal-container">
@@ -11,6 +12,7 @@
           </div>
           </div>
           <div>
+
               List of players
               <div v-for="player of players" :key="player">
                   {{player.name}}
@@ -43,6 +45,7 @@
 import PlayerHand from "./PlayerHand"
 import OpponentHand from "./OpponentHand"
 import DealerHand from "./DealerHand"
+import RoomMessages from "./RoomMessages"
 
 export default {
   name: 'Room',
@@ -55,7 +58,8 @@ export default {
    components: {
        PlayerHand,
        OpponentHand,
-       DealerHand
+       DealerHand,
+       RoomMessages
   },
 
   sockets: {
@@ -69,6 +73,9 @@ export default {
     },
   
   computed: {
+    show() {
+          return !this.$store.state.setName
+      },
       ReadyPlayers() {
           let counter = 0
           for (let player of this.$store.state.multiPlayers) {

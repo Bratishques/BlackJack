@@ -30,6 +30,22 @@ export default new Vuex.Store({
 
   },
   mutations: {
+    setPlayerCard: (state,payload) => {
+      for (let player of state.multiPlayers) {
+        if (payload.name === player.name) {
+          if (payload.card) {
+          player.cards.push(payload.card)
+        }
+          player.isEnough = payload.isEnough
+          player.ownScore = payload.ownScore
+          player.overDrafted = payload.overDrafted
+          player.turn = payload.turn
+          player.isSpectating = payload.isSpectating
+          player.acePick = payload.acePick
+        }
+      }
+
+    },
     setMultiDealer: (state, payload) => {
       state.multiDealerCards = payload.cards
       state.multiDealerScore = payload.score
@@ -78,8 +94,6 @@ export default new Vuex.Store({
       },
       reset: (state) => {
           let s = defaultState()
-          console.log(s)
-          console.log(state)
           Object.keys(s).forEach(key => {
             state[key] = s[key]
           })
@@ -154,6 +168,9 @@ export default new Vuex.Store({
     },
     SOCKET_changeStage({commit}, data) {
       commit("setStage", data)
+    },
+    SOCKET_changePlayerCard({commit}, data) {
+      commit('setPlayerCard', data)
     },
 
     chooseName({commit}) {

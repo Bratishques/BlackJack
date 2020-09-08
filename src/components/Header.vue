@@ -29,4 +29,10 @@ export default {
     padding: 0 120px;
     border-bottom: 2px solid skyblue;
     }
+.routes {
+    width: 20vw;
+    display: flex;
+    justify-content: space-between;
+
+}
 </style>
