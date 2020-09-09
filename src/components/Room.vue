@@ -23,14 +23,14 @@
           </div>
     <h3>Welcome to the room {{$route.params.id}}!</h3>
     <DealerHand></DealerHand>
+    <Deck/>
     <div class="playersGrid" >
-        <div v-for="table of players" :key="table">
+        <div v-for="(table, index) of players" :key="table">
         <div v-if="table.name === playerName">
-            <PlayerHand :player = table></PlayerHand>
-
+            <PlayerHand :player = table :tableNumber = index></PlayerHand>
         </div>
         <div v-else>
-            <OpponentHand :player = table></OpponentHand>
+            <OpponentHand :player = table :tableNumber = index></OpponentHand>
 
         </div>
     </div>
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-
+import Deck from "./Deck"
 import PlayerHand from "./PlayerHand"
 import OpponentHand from "./OpponentHand"
 import DealerHand from "./DealerHand"
@@ -59,7 +59,8 @@ export default {
        PlayerHand,
        OpponentHand,
        DealerHand,
-       RoomMessages
+       RoomMessages,
+       Deck
   },
 
   sockets: {

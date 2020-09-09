@@ -3,9 +3,9 @@
   <h3>Dealer</h3>
   <div class="CardWrap">
     <div class="CardGrid">
-  <div v-for="dealercard of dealerCards" :key="dealercard">
+  <div v-for="(dealercard, index) of dealerCards" :key="dealercard">
         
-        <BaseCard :name="dealercard"/>
+        <BaseCard :name="dealercard" :tableNumber="1337" :cardNumber=index />
     </div>
      </div>
       </div>

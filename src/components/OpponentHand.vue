@@ -4,8 +4,8 @@
   <br/>
   <div class="CardWrap">
     <div class="CardGrid">
-    <div v-for="card of playerCards" :key="card">
-        <BaseCard :name="card"/>
+    <div v-for="(card, index) of playerCards" :key="card">
+        <BaseCard :name="card" :cardNumber = index :tableNumber = tableNumber />
     </div>
     </div>
     </div>
@@ -18,7 +18,8 @@
 export default {
   name: 'OpponentHand',
   props: {
-      player: Object
+      player: Object,
+      tableNumber: Number,
   },
 
   sockets: {

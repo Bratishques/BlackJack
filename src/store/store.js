@@ -9,6 +9,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+      deckOffset: {},
       multiDealerCards: [],
       multiDealerScore: 0,
       name: "",
@@ -30,6 +31,9 @@ export default new Vuex.Store({
 
   },
   mutations: {
+    setDeckOffset: (state,payload) => {
+      state.deckOffset = payload.offset
+    },
     setPlayerCard: (state,payload) => {
       for (let player of state.multiPlayers) {
         if (payload.name === player.name) {
