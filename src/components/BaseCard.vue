@@ -42,10 +42,6 @@ export default {
     
   },
 
-  created: function() {
-        
-        
-    },
   mounted: function() {
     var self = this
     var id = `card${this.cardNumber}${this.tableNumber}`
@@ -60,7 +56,11 @@ export default {
       elem.style.left = moveX + "px"
       let timer = setInterval(function () {
         let timePassed = Date.now() - start;
-        if (timePassed >= 1400) {
+        let approxX = Number(elem.style.top.replace(/px/gi,""))
+        let approxY = Number(elem.style.left.replace(/px/gi,""))
+        if ((approxX < 10 && approxX > -10) || (approxY < 10 && approxY > -10)) {
+          elem.style.top = "0px"
+          elem.style.left = "0px"
         clearInterval(timer); 
         return;
         }
@@ -68,7 +68,9 @@ export default {
         elem.style.left = moveX - (timePassed * (moveX/1400)) + "px"
       }, 10)
     }
+    if (!document.hidden) {
     giveCard()
+    }
   }
 
  
