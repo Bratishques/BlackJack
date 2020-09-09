@@ -58,7 +58,7 @@ export default {
         let timePassed = Date.now() - start;
         let approxX = Number(elem.style.top.replace(/px/gi,""))
         let approxY = Number(elem.style.left.replace(/px/gi,""))
-        if ((approxX < 2 && approxX > -2) || (approxY < 2 && approxY > -2)) {
+        if ((approxX < 2 && approxX > -2) || (approxY < 2 && approxY > -2) || (document.hidden)) {
           elem.style.top = "0px"
           elem.style.left = "0px"
         clearInterval(timer); 
