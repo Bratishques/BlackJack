@@ -91,10 +91,10 @@ export default {
    0% {
       opacity: 0;
    }
-   8% {
+   3% {
      opacity: 0;
    }
-   10% {
+   5% {
      opacity: 1;
    }
    100% {
