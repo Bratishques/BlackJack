@@ -9,7 +9,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-      deckOffset: {},
+      roomError: "",
       multiDealerCards: [],
       multiDealerScore: 0,
       name: "",
@@ -31,8 +31,8 @@ export default new Vuex.Store({
 
   },
   mutations: {
-    setDeckOffset: (state,payload) => {
-      state.deckOffset = payload.offset
+    setRoomError: (state, payload) => {
+      state.roomError = payload.error
     },
     setPlayerCard: (state,payload) => {
       for (let player of state.multiPlayers) {

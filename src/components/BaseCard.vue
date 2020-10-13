@@ -65,6 +65,7 @@ export default {
         }
         elem.style.top = moveY - (timePassed * (moveY/1400)) + "px"
         elem.style.left = moveX - (timePassed * (moveX/1400)) + "px"
+       
       }, 10)
     }
     if (!document.hidden) {

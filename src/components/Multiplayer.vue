@@ -1,11 +1,8 @@
 <template>
   <div>
-    <h3>Multiplayer</h3>
-    <button @click="clickButton" :disabled="roomCreated">New Room</button>
+    <h2>Multiplayer</h2>
+    <button @click="clickButton" :disabled="roomCreated" class="create-room-button">New Room</button>
 
-    <div v-if="roomCreated">
-        <a @click="goTo">Room link</a> 
-    </div>
   </div>
 </template>
 
@@ -27,24 +24,33 @@ export default {
     },
   
   computed: {
-      roomCreated() {
-          return !!this.$store.state.room
-      },
-      room() {
-          return this.$store.state.room
-      }
+
   },
-    
+
+  created: function () {
+      this.$store.commit("setRoom",{id: ""})
+  },
    methods: {
-       goTo() {
-           this.$router.push({path: `room/${this.room}`})
-       },
+
        clickButton() {
-            // $socket is socket.io-client instance
             this.$socket.emit('createRoom', {
                 text: "From Client"
+            }, data => {
+                this.$router.push({path: `room/${data.id}`})
             })
         }
     }
 }
 </script>
+
+<style>
+.multiplayer-wrap {
+    text-align: start;
+}
+
+.create-room-button {
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+</style>

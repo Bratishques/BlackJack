@@ -1,7 +1,7 @@
 <template>
   <div v-if="dealerScore != 0"> 
   <h3>Dealer</h3>
-  <div class="CardWrap">
+  <div class="card-wrap">
     <div class="CardGrid">
   <div v-for="(dealercard, index) of dealerCards" :key="dealercard">
         
@@ -9,6 +9,7 @@
     </div>
      </div>
       </div>
+      <div>{{dealerScore}}</div>
 
   </div>
   

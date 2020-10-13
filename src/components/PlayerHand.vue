@@ -3,7 +3,7 @@
     {{ this.player.name }}
     <br />
     <br />
-    <div class="CardWrap">
+    <div class="card-wrap">
       <div class="CardGrid">
         <div v-for="(card, index) of playerCards" :key="card">
           <BaseCard :name="card" :cardNumber = index :tableNumber = tableNumber />
@@ -15,6 +15,11 @@
     <button :disabled="!playStage" @click="enough">Enough</button>
     <button :disabled="!acePick" @click="ace" :value="1">1</button>
     <button :disabled="!acePick" @click="ace" :value="11">11</button>
+    <div class="player-status">
+      <div>{{score}}</div>
+      <div>{{status}}</div>
+    </div>
+   
   </div>
 </template>
 
@@ -24,11 +29,43 @@ export default {
   props: {
     player: Object,
     tableNumber: Number,
+    id: String
   },
 
   sockets: {},
 
   computed: {
+    status() {
+      let status = ""
+      for (let player of this.$store.state.multiPlayers) {
+        if (player.name === this.player.name) {
+          if (player.overDrafted) {
+          status = "Player had too much!";
+
+          }
+          else if (player.isEnough) {
+          status = "Player holds";
+
+          }
+          else if (player.acePick) {
+          status = "Choose Ace value";
+
+          }
+        }
+      }
+        return status
+    },
+    score() {
+      let score = 0
+      for (let player of this.$store.state.multiPlayers) {
+        if (player.name === this.player.name) {
+          if (player.ownScore) {
+          score = player.ownScore;
+          }
+        }
+      }
+      return score
+    },
     acePick() {
       let acePick = false;
       for (let player of this.$store.state.multiPlayers) {
@@ -81,10 +118,10 @@ export default {
 
   methods: {
     enough() {
-      this.$socket.emit("enough", { name: `${this.player.name}` }, (data) => {
+      this.$socket.emit("enough", { name: `${this.player.name}`, id: this.id }, (data) => {
         this.$store.commit("setStage", data);
         if (data.stage > 1) {
-          this.$socket.emit("countWinners");
+          this.$socket.emit("countWinners", {id: this.id});
         }
       });
     },
@@ -92,20 +129,20 @@ export default {
       console.log(event.target.value);
       this.$socket.emit(
         "ace",
-        { name: `${this.player.name}`, value: event.target.value },
+        { name: `${this.player.name}`, value: event.target.value, id: this.id },
         (data) => {
           this.$store.commit("setStage", data);
           if (data.stage > 1) {
-            this.$socket.emit("countWinners");
+            this.$socket.emit("countWinners", {id: this.id});
           }
         }
       );
     },
     pickCard() {
-      this.$socket.emit("pickCard", { name: `${this.player.name}` }, (data) => {
+      this.$socket.emit("pickCard", { name: `${this.player.name}`, id: this.id }, (data) => {
         this.$store.commit("setStage", data);
         if (data.stage > 1) {
-          this.$socket.emit("countWinners");
+          this.$socket.emit("countWinners", {id: this.id});
         }
       });
     },
@@ -117,6 +154,7 @@ export default {
         {
           text: `${this.player.name} is ready`,
           name: `${this.player.name}`,
+          id: this.id 
         },
         (data) => {
           if (data.players) {
@@ -142,7 +180,7 @@ export default {
   grid-auto-rows: minmax(100px, auto);
   column-gap: 5px;
 }
-.CardWrap {
+.card-wrap {
   display: flex;
   justify-content: center;
   background-color: green;
@@ -150,5 +188,10 @@ export default {
   border-radius: 20px;
   max-width: 400px;
   margin: auto;
+}
+
+.player-status {
+  padding: 10px 0;
+  font-size: 20px;
 }
 </style>

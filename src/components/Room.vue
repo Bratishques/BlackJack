@@ -1,7 +1,6 @@
 <template>
-  <div>
-      <RoomMessages/>
-      <div class="modal"  v-show="setName">
+    <div>
+         <div class="modal"  v-show="setName">
           <div class="modal-wrapper">
               <div class="modal-container">
                 <h4>This is modal</h4>
@@ -11,6 +10,10 @@
             </div>
           </div>
           </div>
+  <div v-if="!error" class="room-wrap">
+      <div v-if="players.length > 0">
+      <RoomMessages/>
+     </div>
           <div>
 
               List of players
@@ -25,9 +28,9 @@
     <DealerHand></DealerHand>
     <Deck/>
     <div class="playersGrid" >
-        <div v-for="(table, index) of players" :key="table">
+        <div v-for="(table, index) of players" :key="index">
         <div v-if="table.name === playerName">
-            <PlayerHand :player = table :tableNumber = index></PlayerHand>
+            <PlayerHand :player = table :tableNumber = index :id = $route.params.id></PlayerHand>
         </div>
         <div v-else>
             <OpponentHand :player = table :tableNumber = index></OpponentHand>
@@ -36,7 +39,11 @@
     </div>
 
     </div>
+   
   </div>
+     <div v-else> {{error}}</div>
+  </div>
+  
   
 </template>
 
@@ -52,6 +59,8 @@ export default {
   data() {
     return {
     name: 'Player',
+
+
     }
   },
 
@@ -74,6 +83,13 @@ export default {
     },
   
   computed: {
+      error() {
+          let error = ""
+          if (!this.$store.state.error) {
+              error = this.$store.state.roomError
+          }
+          return error
+      },
     show() {
           return !this.$store.state.setName
       },
@@ -93,7 +109,7 @@ export default {
           return this.$store.state.multiPlayers
       },
       nameValid() {
-          if (this.name.length < 3) {
+          if (this.name.length < 4) {
               return false
           }
           return true
@@ -101,52 +117,53 @@ export default {
       id() {
           return this.$route.params.id
       },
+
       setName() {
           return this.$store.state.setName
+      },
+      messages() {
+          return this.$store.state.roomMessages
       }
 
   },
   created: function () {
+    this.$store.commit("setName", {name: ""})
+     this.$store.commit("setMultiDealer", {score:0, cards: []})
+     this.$store.commit("setMultiplayers", {players: []})
       console.log("Created")
       this.$socket.emit("enterRoom", {id: `${this.id}`}, data => {
-          console.log(data)
+          if (data.error) {
+              this.$store.commit("setRoomError", data)
+              return
+          }
           this.$store.dispatch('receiveMessages', data)
           if(this.$store.state.name === "") {
           this.$store.dispatch('chooseName')
           return
           }
-          this.$socket.emit("nameChosen", {name: this.name}, data => {
-               
-               this.$store.commit("setStage", data)
-               this.$store.commit("setMultiplayers", data)
-               console.log(data)
 
-           })
       })
   },
    beforeDestroy() {
-       this.$socket.emit('disconnecting')
+        this.$socket.emit('disconnecting', {id : this.id})
+        this.$store.commit("setRoomError", {error: ""})
    },
 
    methods: {
        sendName() {
            this.$store.dispatch('chooseName')
-           this.$socket.emit("nameChosen", {name: this.name}, data => {
+           this.$socket.emit("nameChosen", {name: this.name, id: this.id}, data => {
                if (data.error) {
                    this.$store.dispatch('chooseName')
                    return
                }
+               this.$store.commit("setMultiDealer", data)
                this.$store.commit("setStage", data)
                this.$store.commit("setMultiplayers", data)
+               return
            }),
            this.$store.commit("setName", {name: this.name})
        },
-       clickButton() {
-            // $socket is socket.io-client instance
-            this.$socket.emit('createRoom', {
-                text: "From Client"
-            })
-        }
     }
 }
 </script>
@@ -183,4 +200,6 @@ export default {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 }
+
+
 </style>

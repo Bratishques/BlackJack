@@ -12,7 +12,8 @@ Vue.config.productionTip = false
 
 Vue.use(new VueSocketIO({
   debug: true,
-  connection: 'https://afternoon-island-59031.herokuapp.com/',
+  //connection: 'https://afternoon-island-59031.herokuapp.com/',
+  connection: "http://localhost:5000/",
   vuex: {
       store,
       actionPrefix: 'SOCKET_',

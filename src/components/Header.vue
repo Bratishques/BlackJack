@@ -1,9 +1,9 @@
 <template>
   <div class="header">
-    <router-link to="/"><h1>Logo</h1></router-link>
+
     <div class="routes">
-    <router-link to="/blackjack">Blackjack</router-link>
-    <router-link to="/multiplayer">Multiplayer</router-link>
+    <router-link to="/" class="link">Home</router-link>
+    <router-link to="/multiplayer" class="link">Multiplayer</router-link>
     </div>
     
     <div>
@@ -22,17 +22,36 @@ export default {
 
 <style scoped>
 
+.link {
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  font-family: Roboto;
+  transition: all 0.2s ease-in-out;
+
+}
+
+.link:hover{
+  color: rgb(43, 43, 43);
+}
+
 .header {
+    position: absolute;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 120px;
-    border-bottom: 2px solid skyblue;
+    padding: 30px 200px;
+    background-color: rgb(88, 167, 187);
+    width: 100%;
+    top:0;
+    left: 0;
     }
+
 .routes {
+    font-size: 20px;
     width: 20vw;
     display: flex;
     justify-content: space-between;
+
 
 }
 </style>
