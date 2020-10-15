@@ -9,7 +9,7 @@
     </div>
      </div>
       </div>
-      <div>{{dealerScore}}</div>
+      <div class="player-status ">{{dealerScore}}</div>
 
   </div>
   

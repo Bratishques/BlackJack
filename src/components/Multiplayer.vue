@@ -1,9 +1,14 @@
 <template>
-  <div>
+  <div class="multiplayer-wrap">
+    <div class="multiplayer-top">
     <h2>Multiplayer</h2>
     <button @click="clickButton" :disabled="roomCreated" class="create-room-button">New Room</button>
+    </div>
+    <div>
 
   </div>
+  </div>
+  
 </template>
 
 <script>
@@ -46,11 +51,13 @@ export default {
 <style>
 .multiplayer-wrap {
     text-align: start;
+    padding: 0px 200px;
 }
 
 .create-room-button {
     padding: 10px 20px;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 </style>

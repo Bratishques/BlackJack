@@ -1,4 +1,5 @@
 <template>
+<div >
   <img
      :src="require(`../assets/x.svg`)"
      class="deck"
@@ -6,6 +7,7 @@
      v-bind="$attrs"
      @v-on="$listeners"
   />
+  </div>
 </template>
 
 <script>
@@ -36,6 +38,14 @@ export default {
 <style>
  .deck {
    width: 60px;
+    padding: 10px;
+    background-color: green;
+    border-radius: 5px;
+ }
+
+ .deck-wrap {
+    width: 60px;
+  
  }
 
  </style>

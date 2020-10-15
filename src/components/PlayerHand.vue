@@ -10,11 +10,15 @@
         </div>
       </div>
     </div>
-    <button @click="ready" :disabled="!notReady">Ready</button>
-    <button :disabled="!playStage" @click="pickCard">Pick card</button>
-    <button :disabled="!playStage" @click="enough">Enough</button>
-    <button :disabled="!acePick" @click="ace" :value="1">1</button>
-    <button :disabled="!acePick" @click="ace" :value="11">11</button>
+    <div class="room-button-wrap" v-if="!acePick">
+    <button class="room-button ready-button" @click="ready" :disabled="!notReady">Ready</button>
+    <button class="room-button pick-button" :disabled="!playStage" @click="pickCard">Pick card</button>
+    <button class="room-button enough-button" :disabled="!playStage" @click="enough">Enough</button>
+    </div>
+    <div class="room-button-wrap" v-else>
+    <button class="room-button one-button" :disabled="!acePick" @click="ace" :value="1">1</button>
+    <button class="room-button eleven-button" :disabled="!acePick" @click="ace" :value="11">11</button>
+     </div>
     <div class="player-status">
       <div>{{score}}</div>
       <div>{{status}}</div>
@@ -193,5 +197,25 @@ export default {
 .player-status {
   padding: 10px 0;
   font-size: 20px;
+}
+
+.room-button {
+  padding: 8px 8px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.room-button:disabled{
+  opacity: 0.5;
+  cursor:not-allowed;
+}
+
+.room-button-wrap {
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) ;
+  column-gap: 10px;
+  padding: 5px 10px;
+  justify-content: space-around;
 }
 </style>

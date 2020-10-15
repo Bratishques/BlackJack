@@ -3,9 +3,11 @@
          <div class="modal"  v-show="setName">
           <div class="modal-wrapper">
               <div class="modal-container">
-                <h4>This is modal</h4>
+                <h4>Please choose your nickname</h4>
+                <div class="modal-input-wrap">
                 <input type="text" name="Name" id="name" v-model="name">
-                <button @click="sendName" :disabled="!nameValid">Set name</button>
+                <button @click="sendName" :disabled="!nameValid" class="room-button">Set name</button>
+                </div>
                 <div>Please choose your name, the field must contain at least 4 symbols (Sorry, Ian)</div>
             </div>
           </div>
@@ -15,7 +17,6 @@
       <RoomMessages/>
      </div>
           <div>
-
               List of players
               <div v-for="player of players" :key="player">
                   {{player.name}}
@@ -195,10 +196,21 @@ export default {
   padding: 20px 30px;
 }
 
+.room-wrap {
+    text-align: center;
+}
+
 .playersGrid {
   margin-top: 20vh;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+}
+
+.modal-input-wrap {
+    display: grid;
+    grid-template-columns: 150px 100px;
+    column-gap: 20px;
+    margin-bottom: 20px;
 }
 
 
