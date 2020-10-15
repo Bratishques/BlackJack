@@ -8,7 +8,8 @@
                 <input type="text" name="Name" id="name" v-model="name">
                 <button @click="sendName" :disabled="!nameValid" class="room-button">Set name</button>
                 </div>
-                <div>Please choose your name, the field must contain at least 4 symbols (Sorry, Ian)</div>
+                <div v-if="!this.namingError">Please choose your name, the field must contain at least 4 symbols (Sorry, Ian)</div>
+                <div v-else> {{this.namingError}} </div>
             </div>
           </div>
           </div>
@@ -60,7 +61,7 @@ export default {
   data() {
     return {
     name: 'Player',
-
+    namingError: ""
 
     }
   },
@@ -156,6 +157,7 @@ export default {
            this.$socket.emit("nameChosen", {name: this.name, id: this.id}, data => {
                if (data.error) {
                    this.$store.dispatch('chooseName')
+                   this.namingError = "Please choose different name, this one is taken"
                    return
                }
                this.$store.commit("setMultiDealer", data)
